@@ -2,6 +2,14 @@ import { useEffect, useState } from "react";
 import { fetchEntitlements, fetchLeaveRequests, fetchPendingRequests } from "../services/api";
 import { useAuth } from "../contexts/AuthContext";
 
+const normalizeArray = (value) => {
+  if (Array.isArray(value)) {
+    return value;
+  }
+  console.warn("Expected an array but received", value);
+  return [];
+};
+
 const DashboardPage = () => {
   const { user } = useAuth();
   const [entitlements, setEntitlements] = useState([]);
@@ -16,11 +24,11 @@ const DashboardPage = () => {
         fetchEntitlements(),
         fetchLeaveRequests(),
       ]);
-      setEntitlements(entRes.data);
-      setRequests(reqRes.data);
+      setEntitlements(normalizeArray(entRes.data));
+      setRequests(normalizeArray(reqRes.data));
       if (user?.role === "manager" || user?.role === "admin") {
         const pending = await fetchPendingRequests();
-        setPendingRequests(pending.data);
+        setPendingRequests(normalizeArray(pending.data));
       }
     } catch (err) {
       console.error(err);
