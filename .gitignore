@@ -1,0 +1,15 @@
+# Python
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+
+# Backend artifacts
+backend/leave_app.db
+backend/__pycache__/
+backend/venv/
+
+# Node
+frontend/node_modules/
+frontend/build/
